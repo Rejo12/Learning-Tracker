@@ -76,8 +76,8 @@ const App = () => {
     <>
       <h3 className="main-heading">Learning Tracker</h3>
       <div className="app">
-        <div>
-          <span>Month</span>
+        <div className="month-container">
+          <h2>Month</h2>
           {tasks.map((item) => (
             <MonthView
               tasks={item}
@@ -88,7 +88,7 @@ const App = () => {
           ))}
         </div>
         <div>
-          <span>Pending</span>
+          <h2>Pending</h2>
           {tasks.map((item) => (
             <PendingTasks
               tasks={item}

@@ -35,3 +35,16 @@ code {
 .pending-tasks-container{
   width: 100px;
 }
+
+.month-container{
+  border-right: 2px solid;
+  padding-right: 45px;
+}
+
+.app ~ div:nth-child(2){
+  border-right: 2px solid;
+  padding-right: 45px;
+  width: 20vw;
+  padding-left: 20px;
+
+}
