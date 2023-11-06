@@ -28,17 +28,23 @@ code {
 .app{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   padding: 5px 20px;
 }
 
-.pending-tasks-container{
+/* .pending-tasks-container{
   width: 100px;
-}
+} */
 
 .month-container{
   border-right: 2px solid;
   padding-right: 45px;
+  width: 15%;
+}
+
+.pending-conatiner{
+  width: 30%;
+  padding-left: 22px;
+  border-right: 2px solid;
 }
 
 .app ~ div:nth-child(2){
@@ -47,4 +53,24 @@ code {
   width: 20vw;
   padding-left: 20px;
 
+}
+
+.pending-tasks-container{
+  width: 270px;
+  height: max-content;
+  min-width: 120px;
+  min-height: 50px;
+  background-color: #4e95d4;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: flex-start; */
+  padding: 5px;
+  border: 2px solid #366fa3;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.text-style{
+  word-break: break-word;
+  width: 80%;
 }

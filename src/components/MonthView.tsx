@@ -16,7 +16,8 @@ const newTaskTemplate = (tasks: taskProps) => {
     month: tasks.month,
     id: new Date().getTime(),
     taskName: "",
-    completed: false,
+    readOnly: false,
+    isPending: true,
   };
 };
 
@@ -29,13 +30,13 @@ const MonthView: React.FC<Props> = ({
   const [newTask, setNewTask] = useState<newTaskInterface>(
     newTaskTemplate(tasks)
   );
-  const { completed } = newTask;
+  const { readOnly } = newTask;
 
   useEffect(() => {
-    if (completed) {
+    if (readOnly) {
       addNewTasks(newTask);
     }
-  }, [completed]);
+  }, [readOnly]);
   const handleNewTasks = () => {
     setNewTask(newTaskTemplate(tasks));
     setShowTextBox((currValue) => !currValue);
@@ -47,7 +48,7 @@ const MonthView: React.FC<Props> = ({
   };
   const handleSave = () => {
     setNewTask((currTask) => {
-      return { ...currTask, completed: !currTask.completed };
+      return { ...currTask, readOnly: !currTask.readOnly };
     });
     setShowTextBox((currValue) => !currValue);
   };
@@ -57,7 +58,7 @@ const MonthView: React.FC<Props> = ({
     height = `${Math.max(...maxHeights[tasks.month]) + 50}px`;
   }
 
-  console.log({ showTextBox });
+  // console.log({ showTextBox });
   return (
     <div className="conatiner" style={{ height: height }}>
       {tasks.month}

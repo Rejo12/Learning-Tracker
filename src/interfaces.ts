@@ -2,7 +2,8 @@ export interface newTaskInterface {
   month?: string;
   id: number;
   taskName: string;
-  completed: boolean;
+  readOnly: boolean;
+  isPending:boolean;
 }
 
 export interface taskProps {
