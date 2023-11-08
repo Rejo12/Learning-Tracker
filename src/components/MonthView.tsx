@@ -55,12 +55,12 @@ const MonthView: React.FC<Props> = ({
   // console.log({ newTask });
   let height = "50px";
   if (maxHeights[tasks.month]) {
-    height = `${Math.max(...maxHeights[tasks.month]) + 50}px`;
+    height = `${Math.max(...maxHeights[tasks.month])}px`;
   }
 
   // console.log({ showTextBox });
   return (
-    <div className="conatiner" style={{ height: height }}>
+    <div className="per-month-conatiner" style={{ height: height }}>
       {tasks.month}
       {showTextBox ? (
         <div className="">

@@ -74,3 +74,11 @@ code {
   word-break: break-word;
   width: 80%;
 }
+
+.per-month-conatiner{
+  margin-bottom: 15px;
+}
+
+.cursonPointer{
+  cursor: pointer;
+}

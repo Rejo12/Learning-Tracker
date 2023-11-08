@@ -35,6 +35,16 @@ const PendingTasks: React.FC<PendingProps> = ({
 
   // console.log({ pendingTasks });
 
+  if (pendingTasks.length === 0) {
+    return (
+      <div className="pending-tasks-container">
+        <span className="text-style" style={{ wordBreak: "break-word" }}>
+          No tasks available
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div ref={currentRef}>
       {pendingTasks.map((item: newTaskInterface, index: number) =>
@@ -44,9 +54,13 @@ const PendingTasks: React.FC<PendingProps> = ({
               <span className="text-style" style={{ wordBreak: "break-word" }}>
                 {item.taskName}
               </span>
-              <DoneIcon onClick={(e) => handleDone(item, tasks.month)} />
+              <DoneIcon
+                onClick={(e) => handleDone(item, tasks.month)}
+                className="cursonPointer"
+              />
               <DeleteForeverIcon
                 onClick={(e) => handleDelete(item, tasks.month)}
+                className="cursonPointer"
               />
             </div>
             {index === pendingTasks.length - 1 && (
