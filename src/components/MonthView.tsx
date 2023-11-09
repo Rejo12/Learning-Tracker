@@ -53,7 +53,7 @@ const MonthView: React.FC<Props> = ({
     setShowTextBox((currValue) => !currValue);
   };
   // console.log({ newTask });
-  let height = "50px";
+  let height = "90px";
   if (maxHeights[tasks.month]) {
     height = `${Math.max(...maxHeights[tasks.month])}px`;
   }

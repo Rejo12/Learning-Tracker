@@ -10,7 +10,11 @@ interface PendingProps {
     statusTasks: newTaskInterface[],
     month: string
   ) => void;
-  handleDelete: (item: newTaskInterface, month: string) => void;
+  handleDelete: (
+    item: newTaskInterface,
+    month: string,
+    taskType: string
+  ) => void;
   handleDone: (item: newTaskInterface, month: string) => void;
 }
 
@@ -37,11 +41,15 @@ const PendingTasks: React.FC<PendingProps> = ({
 
   if (pendingTasks.length === 0) {
     return (
-      <div className="pending-tasks-container">
-        <span className="text-style" style={{ wordBreak: "break-word" }}>
-          No tasks available
-        </span>
-      </div>
+      <>
+        <div className="pending-tasks-container">
+          <span className="text-style" style={{ wordBreak: "break-word" }}>
+            No tasks available
+          </span>
+        </div>
+        <br />
+        <br />
+      </>
     );
   }
 
@@ -59,7 +67,7 @@ const PendingTasks: React.FC<PendingProps> = ({
                 className="cursonPointer"
               />
               <DeleteForeverIcon
-                onClick={(e) => handleDelete(item, tasks.month)}
+                onClick={(e) => handleDelete(item, tasks.month, "pendingTasks")}
                 className="cursonPointer"
               />
             </div>

@@ -3,6 +3,7 @@ import "./App.css";
 import MonthView from "./components/MonthView";
 import { newTaskInterface } from "./interfaces";
 import PendingTasks from "./components/PendingTasks";
+import CompletedTasks from "./components/CompletedTasks";
 
 const initialState = [
   {
@@ -70,18 +71,32 @@ const App = () => {
     setMaxHeights(tmpStatusTasks);
   };
 
-  const handleDelete = (item: newTaskInterface, month: string) => {
+  const handleDelete = (
+    item: newTaskInterface,
+    month: string,
+    taskType: string
+  ) => {
     let originalTasks = structuredClone(tasks);
     console.log(item, month);
     for (let i = 0; i < originalTasks.length; i++) {
       if (originalTasks[i].month === month) {
-        for (let j = 0; j < originalTasks[i].pendingTasks.length; j++) {
-          if (originalTasks[i].pendingTasks[j].id === item.id) {
-            originalTasks[i].pendingTasks.splice(j, 1);
-            break;
+        if (taskType === "pendingTasks") {
+          for (let j = 0; j < originalTasks[i].pendingTasks.length; j++) {
+            if (originalTasks[i].pendingTasks[j].id === item.id) {
+              originalTasks[i].pendingTasks.splice(j, 1);
+              break;
+            }
           }
+          break;
+        } else {
+          for (let j = 0; j < originalTasks[i].completedTasks.length; j++) {
+            if (originalTasks[i].completedTasks[j].id === item.id) {
+              originalTasks[i].completedTasks.splice(j, 1);
+              break;
+            }
+          }
+          break;
         }
-        break;
       }
     }
     setTasks(originalTasks);
@@ -132,6 +147,18 @@ const App = () => {
               handleRefUpdates={handleRefUpdates}
               handleDelete={handleDelete}
               handleDone={handleDone}
+            />
+          ))}
+        </div>
+        <div className="pending-conatiner">
+          <h2>Completed</h2>
+          {tasks.map((item) => (
+            <CompletedTasks
+              tasks={item}
+              // addNewTasks={handleNewTasks}
+              key={item.month}
+              handleRefUpdates={handleRefUpdates}
+              handleDelete={handleDelete}
             />
           ))}
         </div>
