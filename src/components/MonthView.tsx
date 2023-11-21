@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { newTaskInterface, taskProps } from "../interfaces";
 
-interface maxHeightsObj {
+interface maxHeightsForPendingObj {
   [key: string]: number[];
 }
 
 interface Props {
   tasks: taskProps;
   addNewTasks: (task: newTaskInterface) => void;
-  maxHeights: maxHeightsObj;
+  maxHeightsForPending: maxHeightsForPendingObj;
+  maxHeightsForCompleted: maxHeightsForPendingObj;
 }
 
 const newTaskTemplate = (tasks: taskProps) => {
@@ -24,7 +25,8 @@ const newTaskTemplate = (tasks: taskProps) => {
 const MonthView: React.FC<Props> = ({
   tasks,
   addNewTasks,
-  maxHeights,
+  maxHeightsForPending,
+  maxHeightsForCompleted,
 }: Props) => {
   const [showTextBox, setShowTextBox] = useState<boolean>(false);
   const [newTask, setNewTask] = useState<newTaskInterface>(
@@ -54,9 +56,25 @@ const MonthView: React.FC<Props> = ({
   };
   // console.log({ newTask });
   let height = "90px";
-  if (maxHeights[tasks.month]) {
-    height = `${Math.max(...maxHeights[tasks.month])}px`;
+  // if (
+  //   maxHeightsForPending[tasks.month] &&
+  //   maxHeightsForCompleted[tasks.month]
+  // ) {
+  //   let max = Math.max(
+  //     ...maxHeightsForPending[tasks.month],
+  //     ...maxHeightsForCompleted[tasks.month]
+  //   );
+  //   console.log({ max });
+  //   height = `${max}px`;
+  // } else
+  if (maxHeightsForPending[tasks.month]) {
+    height = `${Math.max(...maxHeightsForPending[tasks.month])}px`;
   }
+  // else {
+  //   if (maxHeightsForCompleted[tasks.month]) {
+  //     height = `${Math.max(...maxHeightsForCompleted[tasks.month])}px`;
+  //   }
+  // }
 
   // console.log({ showTextBox });
   return (

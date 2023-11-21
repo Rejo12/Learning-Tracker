@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import DoneIcon from "@mui/icons-material/Done";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { newTaskInterface, taskProps } from "../interfaces";
@@ -8,7 +8,8 @@ type CompletedProps = {
   handleRefUpdates: (
     height: number,
     statusTasks: newTaskInterface[],
-    month: string
+    month: string,
+    taskType: string
   ) => void;
   handleDelete: (item: newTaskInterface, month: string, type: string) => void;
 };
@@ -18,9 +19,28 @@ const CompletedTasks = ({
   handleRefUpdates,
   handleDelete,
 }: CompletedProps) => {
-  const { completedTasks } = tasks;
+  const currRef = useRef<HTMLDivElement>(null);
+  const { completedTasks, pendingTasks } = tasks;
 
-  if (completedTasks.length === 0) {
+  let diffEle = [];
+  if (pendingTasks.length > completedTasks.length) {
+    diffEle = new Array(pendingTasks.length - completedTasks.length).fill(
+      " cover up elements"
+    );
+  }
+
+  useLayoutEffect(() => {
+    if (currRef.current) {
+      handleRefUpdates(
+        currRef.current.clientHeight,
+        completedTasks,
+        tasks.month,
+        "completed"
+      );
+    }
+  }, [completedTasks.length, pendingTasks.length]);
+
+  if (completedTasks.length === 0 && pendingTasks.length === 0) {
     return (
       <>
         <div className="pending-tasks-container">
@@ -28,18 +48,18 @@ const CompletedTasks = ({
             No tasks available
           </span>
         </div>
-        <br />
-        <br />
+        {/* <br />
+        <br /> */}
       </>
     );
   }
 
   return (
-    <div className="">
+    <div className="" ref={currRef}>
       {completedTasks.map((item: newTaskInterface, index: number) =>
         !item.isPending ? (
           <>
-            <div className="pending-tasks-container">
+            <div className="pending-tasks-container" key={item.id}>
               <span className="text-style" style={{ wordBreak: "break-word" }}>
                 {item.taskName}
               </span>
@@ -50,15 +70,30 @@ const CompletedTasks = ({
                 className="cursonPointer"
               />
             </div>
-            {index === completedTasks.length - 1 && (
+            {/* {index === completedTasks.length - 1 && (
               <>
                 <br />
                 <br />
               </>
-            )}
+            )} */}
           </>
         ) : null
       )}
+      {diffEle.map((item: string, index: number) => (
+        <>
+          <div className="pending-tasks-container hide" key={index}>
+            <span className="text-style" style={{ wordBreak: "break-word" }}>
+              {item}
+            </span>
+          </div>
+          {index === diffEle.length - 1 && (
+            <>
+              {/* <br />
+              <br /> */}
+            </>
+          )}
+        </>
+      ))}
     </div>
   );
 };

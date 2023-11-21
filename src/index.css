@@ -82,3 +82,7 @@ code {
 .cursonPointer{
   cursor: pointer;
 }
+
+.hide{
+  visibility: hidden;
+}

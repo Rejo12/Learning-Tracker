@@ -24,14 +24,18 @@ interface initialStateInterface {
   completedTasks: newTaskInterface[];
 }
 
-interface maxHeightsObj {
+interface maxHeightsForPendingObj {
   [key: string]: number[];
 }
 
 const App = () => {
   const [tasks, setTasks] = useState<initialStateInterface[]>(initialState);
 
-  const [maxHeights, setMaxHeights] = useState<maxHeightsObj>({});
+  const [maxHeightsForPending, setmaxHeightsForPending] =
+    useState<maxHeightsForPendingObj>({});
+
+  const [maxHeightsForCompleted, setmaxHeightsForCompleted] =
+    useState<maxHeightsForPendingObj>({});
 
   const handleNewTasks = (newTask: newTaskInterface) => {
     let selectedIndex;
@@ -57,18 +61,24 @@ const App = () => {
   const handleRefUpdates = (
     height: number,
     statusTasks: newTaskInterface[],
-    month: string
+    month: string,
+    taskType: string
   ) => {
-    let tmpStatusTasks = JSON.parse(JSON.stringify(maxHeights));
-    // console.log({ statusTasks });
-    // console.log({ tmpStatusTasks });
-    if (tmpStatusTasks[month]) {
-      tmpStatusTasks[month].push(height);
+    let tmpStatusTasks = JSON.parse(JSON.stringify(maxHeightsForPending));
+    console.log({ statusTasks });
+    tmpStatusTasks[month] = [];
+    tmpStatusTasks[month].push(height);
+    // if (tmpStatusTasks[month]) {
+    //   tmpStatusTasks[month].push(height);
+    // } else {
+    //   tmpStatusTasks[month] = [];
+    //   tmpStatusTasks[month].push(height);
+    // }
+    if (taskType === "pending") {
+      setmaxHeightsForPending(tmpStatusTasks);
     } else {
-      tmpStatusTasks[month] = [];
-      tmpStatusTasks[month].push(height);
+      setmaxHeightsForCompleted(tmpStatusTasks);
     }
-    setMaxHeights(tmpStatusTasks);
   };
 
   const handleDelete = (
@@ -120,7 +130,8 @@ const App = () => {
     setTasks(originalTasks);
   };
 
-  // console.log({ tasks });
+  // console.log({ maxHeightsForPending });
+  // console.log({ maxHeightsForCompleted });
 
   return (
     <>
@@ -133,30 +144,30 @@ const App = () => {
               tasks={item}
               addNewTasks={handleNewTasks}
               key={item.month}
-              maxHeights={maxHeights}
+              maxHeightsForPending={maxHeightsForPending}
+              maxHeightsForCompleted={maxHeightsForCompleted}
             />
           ))}
         </div>
         <div className="pending-conatiner">
           <h2>Pending</h2>
-          {tasks.map((item) => (
+          {tasks.map((item, index) => (
             <PendingTasks
+              key={`${item.month}-${index}`}
               tasks={item}
-              // addNewTasks={handleNewTasks}
-              key={item.month}
               handleRefUpdates={handleRefUpdates}
               handleDelete={handleDelete}
               handleDone={handleDone}
+              maxHeightsForCompleted={maxHeightsForCompleted}
             />
           ))}
         </div>
         <div className="pending-conatiner">
           <h2>Completed</h2>
-          {tasks.map((item) => (
+          {tasks.map((item, index) => (
             <CompletedTasks
+              key={`${item.month}-${index}`}
               tasks={item}
-              // addNewTasks={handleNewTasks}
-              key={item.month}
               handleRefUpdates={handleRefUpdates}
               handleDelete={handleDelete}
             />
